@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "Basic Tab Manager",
+  "version": "1.0",
+  "description": "A simple Chrome extension to manage tabs.",
+  "permissions": ["tabs"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {},
+  "commands": {
+    "close-duplicate-tabs": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+X"
+      },
+      "description": "Close duplicate tabs"
+    },
+    "suspend-inactive-tabs": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Y"
+      },
+      "description": "Suspend inactive tabs"
+    }
+  }
+}
