@@ -1,5 +1,5 @@
 /* file: background.js
- * Author: Sweilam
+ * Author: Sweilam and Mohammed Omer
  * Description: File to handle background processes
  */
 
