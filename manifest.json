@@ -3,11 +3,17 @@
   "name": "Basic Tab Manager",
   "version": "1.0",
   "description": "A simple Chrome extension to manage tabs.",
-  "permissions": ["tabs"],
+  "permissions": [
+    "tabs",
+    "tabGroups",
+    "contextMenus"
+    ],
   "background": {
     "service_worker": "background.js"
   },
-  "action": {},
+  "action": {
+    "default_popup": "html/popup.html"
+    },
   "commands": {
     "close-duplicate-tabs": {
       "suggested_key": {
@@ -21,5 +27,8 @@
       },
       "description": "Suspend inactive tabs"
     }
+  },
+  "icons": {
+    "128": "images/icon-128.png"
   }
 }
