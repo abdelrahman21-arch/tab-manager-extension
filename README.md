@@ -1,5 +1,6 @@
 # Tab Manager Extension
 
+
 *A minimalist Chrome extension for efficient tab management*
 
 [![GitHub stars](https://img.shields.io/github/stars/abdelrahman21-arch/tab-manager-extension)](https://github.com/abdelrahman21-arch/tab-manager-extension/stargazers)
