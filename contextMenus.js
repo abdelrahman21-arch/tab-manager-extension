@@ -1,71 +1,55 @@
-/* file: background.js
- * Author: Sweilam and Mohammed Omer
- * Description: File to handle background processes
- */
-
-/**
- * This function closes duplicate  tabs
- *
- * @returns {void} Returns nothing
- */
-
-importScripts('contextMenus.js');
-
-contextMenu();
-
-async function closeDuplicateTabs() {
-    try {
-        const tabs = await chrome.tabs.query({});
-        const urls = {};
-        let duplicateClosed = 0;
-
-        for (const tab of tabs) {
-            const url = tab.url;
-            if (!urls[url]) {
-                urls[url] = true;
-            } else {
-                await chrome.tabs.remove(tab.id);
-                duplicateClosed += 1;
-            }
-
-        }
-        console.log(`${duplicateClosed} closed duplicate tabs.`);
-    } catch (e) {
-        e.error("Failed to close duplicate tabs.", e);
-
-    }
-};
-
-/**
- * This function suspends inactive tabs
- *
- * @returns {void} Returns nothing
- */
-
-async function suspendInactiveTabs() {
-    try {
-        const tabs = await chrome.tabs.query({ active: false, discarded: false });
-        let suspendedTabs = 0;
-        for (const tab of tabs) {
-            if (!tab.pinned) {
-                await chrome.tabs.discard(tab.id);
-                suspendedTabs += 1;
-            }
-
-
-        }
-        console.log(`${suspendedTabs} inactive tabs suspended.`);
-    } catch (e) {
-        e.error("Failed to suspend inactive tabs.", e);
-    }
-
-
+const addTOGroup = () => {
+    console.log('clicked add to group');
 }
 
-chrome.commands.onCommand.addListener((command) => {
-    if (command === 'close-duplicate-tabs') {
-        closeDuplicateTabs();
-    } else if (command === 'suspend-inactive-tabs') {
-        suspendInactiveTabs();
+const makeGroup = async() => {
+    try {
+        let group_name = '';
+        console.log('clicked new group');
+        chrome.windows.create({
+            url: chrome.runtime.getURL("HTMLs/group_name.html"),
+            type: "popup"
+        });
+        const getName = new Promise((resolve, reject) => {
+            chrome.runtime.onMessage.addListener((message) => {
+                if (message) {
+                    resolve(message);
+                } else {
+                    reject('Still to recieve name');
+                }
+            });
+        });
+        group_name = await getName;
+    } catch (e) {
+        console.log(e)
     }
-});
+    
+}
+
+const contextMenuLayout = () => {
+    let parent = chrome.contextMenus.create({
+        title: 'Group',
+        id: 'groupOPtions',
+        contexts: ['selection'],
+    });
+    chrome.contextMenus.create({
+        title: 'Add to exsisting',
+        id: 'addToGroup',
+        parentId: parent,
+        contexts: ['selection']
+    });
+    chrome.contextMenus.create({
+        title: 'Create new group',
+        id: 'newGroup',
+        parentId: parent,
+        contexts: ['selection']
+    });
+    chrome.contextMenus.onClicked.addListener(clicked => {
+        if (clicked.menuItemId === "newGroup") {
+            makeGroup();
+        }
+        else {
+            addTOGroup();
+        }
+    });
+};

@@ -1,0 +1,17 @@
+body {
+    background-color: black;
+    color: sandybrown;
+    text-align: center;
+    align-content: center;
+}
+input {
+    border-radius: 8px;
+}
+
+.abortButton {
+    padding: 4px;
+}
+
+.saveButton {
+    padding: 4px;
+}
