@@ -1,11 +1,9 @@
 const addTOGroup = () => {
-    console.log('clicked add to group');
 }
 
-const makeGroup = async() => {
+const makeGroup = async(link) => {
     try {
-        let group_name = '';
-        console.log('clicked new group');
+        let group_name;
         chrome.windows.create({
             url: chrome.runtime.getURL("HTMLs/group_name.html"),
             type: "popup"
@@ -20,33 +18,41 @@ const makeGroup = async() => {
             });
         });
         group_name = await getName;
+
+        let tab = await chrome.tabs.create({url: link});
+        chrome.tabs.group({tabIds: [tab.id]}, (id) => {
+            chrome.tabGroups.update(id, {
+                title: group_name
+            });
+            // console.log('Group is named: ' + group_name);
+            // console.log('Its ID is: ' + id);
+        });
     } catch (e) {
         console.log(e)
-    }
-    
+    }    
 }
 
 const contextMenuLayout = () => {
     let parent = chrome.contextMenus.create({
         title: 'Group',
         id: 'groupOPtions',
-        contexts: ['selection'],
+        contexts: ['link'],
     });
     chrome.contextMenus.create({
         title: 'Add to exsisting',
         id: 'addToGroup',
         parentId: parent,
-        contexts: ['selection']
+        contexts: ['link']
     });
     chrome.contextMenus.create({
         title: 'Create new group',
         id: 'newGroup',
         parentId: parent,
-        contexts: ['selection']
+        contexts: ['link']
     });
     chrome.contextMenus.onClicked.addListener(clicked => {
         if (clicked.menuItemId === "newGroup") {
-            makeGroup();
+            makeGroup(clicked.linkUrl);
         }
         else {
             addTOGroup();
