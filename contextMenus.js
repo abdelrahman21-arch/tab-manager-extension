@@ -5,6 +5,19 @@ const getTabGroups = async () => {
     return await chrome.tabGroups.query({});
 };
 
+const tabToGroup = async (groupID, link) => {
+    // console.log('Adding to group with ID ' + groupID.substring(6));
+    try {
+        let tab = await chrome.tabs.create({ url: link });
+        await chrome.tabs.group({
+            tabIds: tab.id,
+            groupId: parseInt(groupID.substring(6))
+        });
+    } catch (e) {
+        console.log(e);
+    }
+}
+
 const groupAddition = async (ID, groups) => {
     try {
         // Clear out existing group options to avoid duplication
@@ -134,6 +147,13 @@ const contextMenuLayout = () => {
                 makeGroup(clicked.linkUrl);
             }
         });
+
+        chrome.contextMenus.onClicked.addListener(clicked => {
+            if (clicked.menuItemId.startsWith('group-')) {
+                // console.log(clicked.menuItemId);
+                tabToGroup(clicked.menuItemId, clicked.linkUrl);
+            }
+        })
     });
 
     // Handle group changes dynamically
