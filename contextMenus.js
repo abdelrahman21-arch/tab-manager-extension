@@ -13,6 +13,7 @@ const tabToGroup = async (groupID, link) => {
             tabIds: tab.id,
             groupId: parseInt(groupID.substring(6))
         });
+        closeDuplicateTabs();
     } catch (e) {
         console.log(e);
     }

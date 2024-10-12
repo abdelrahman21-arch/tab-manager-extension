@@ -8,7 +8,7 @@
  *
  * @returns {void} Returns nothing
  */
-importScripts('contextMenus.js')
+importScripts('contextMenus.js');
 contextMenuLayout();
 
 async function closeDuplicateTabs() {
