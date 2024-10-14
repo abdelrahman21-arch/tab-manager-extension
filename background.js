@@ -61,10 +61,55 @@ async function suspendInactiveTabs() {
 
 }
 
+const searchMessage = (message) => {
+        if (message) {
+            resolve(message);
+            cleanupAfterPopup();
+        } else {
+            reject('no search term');
+        }
+    };
+
+/**
+ * This function searches the tabs and changes the view to it if any.
+ *
+ * @returns {void} Returns nothing
+*/
+const searchTabs = async() => {
+    const searchTerm = await new Promise((resolve, reject) => {
+        console.log('start search');
+        chrome.windows.create({
+            url: chrome.runtime.getURL('HTMLs/searchTabsTitles.html'),
+            type: 'popup'
+        });
+        const oneTimeMessageListener = (message) => {
+            if (message) {
+                resolve(message);
+            } else {
+                reject('No name received');
+            }
+            chrome.runtime.onMessage.removeListener(oneTimeMessageListener);
+        };
+        chrome.runtime.onMessage.addListener(oneTimeMessageListener);
+    });
+
+    let res = await chrome.tabs.query({}, (tabs) => {
+        for (let index = 0; index < tabs.length; index++) {
+            if (tabs[index].title.toLowerCase().includes(searchTerm)) {
+                console.log(tabs[index].id);
+                chrome.tabs.update(tabs[index].id, { active: true });
+            }
+        }
+    });
+    console.log(res);
+};
+
 chrome.commands.onCommand.addListener((command) => {
   if (command === 'close-duplicate-tabs') {
     closeDuplicateTabs();
   } else if (command === 'suspend-inactive-tabs') {
     suspendInactiveTabs();
+  } else if (command === 'Search-tabs') {
+    searchTabs();
   }
 });

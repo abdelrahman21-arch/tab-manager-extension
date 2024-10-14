@@ -30,6 +30,12 @@
         "default": "Ctrl+Shift+Y"
       },
       "description": "Suspend inactive tabs"
+    },
+    "Search-tabs": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+S"
+      },
+      "description": "Lets you search in all the tabs titles"
     }
   },
   "icons": {
