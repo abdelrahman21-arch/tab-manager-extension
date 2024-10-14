@@ -1,6 +1,14 @@
 body {
     background-color: black;
-    color: rgb(152, 214, 8);
+    color: rgb(8, 74, 228);
     width: 265px;
     height: 265px
+}
+
+h1 {
+    text-align: center
+}
+
+p {
+    text-indent: 16pt
 }
