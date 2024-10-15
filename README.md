@@ -5,7 +5,7 @@
 
 [![GitHub stars](https://img.shields.io/github/stars/abdelrahman21-arch/tab-manager-extension)](https://github.com/abdelrahman21-arch/tab-manager-extension/stargazers)
 [![GitHub issues](https://img.shields.io/github/issues/abdelrahman21-arch/tab-manager-extension)](https://github.com/abdelrahman21-arch/tab-manager-extension/issues)
-[![License](https://img.shields.io/github/license/abdelrahman21-arch/tab-manager-extension/LICENSE)](LICENSE)
+[![License](https://img.shields.io/github/license/abdelrahman21-arch/tab-manager-extension/)](LICENSE)
 
 ## Overview
 
